@@ -2,6 +2,22 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+  public static class Pair
+  {
+    Node node;
+    int state;
+
+    Pair()
+    {
+
+    }
+
+    Pair(Node node,int state)
+    {
+      this.node = node;
+      this.state = state;
+    }
+  }
   private static class Node {
     int data;
     ArrayList<Node> children = new ArrayList<>();
@@ -44,60 +60,54 @@ public class Main {
     return root;
   }
 
-  public static int size(Node node) {
-    int s = 0;
-
-    for (Node child : node.children) {
-      s += size(child);
-    }
-    s += 1;
-
-    return s;
-  }
-
-  public static int max(Node node) {
-    int m = Integer.MIN_VALUE;
-
-    for (Node child : node.children) {
-      int cm = max(child);
-      m = Math.max(m, cm);
-    }
-    m = Math.max(m, node.data);
-
-    return m;
-  }
-
-  public static int height(Node node) {
+  public static void IterativePreandPostOrder(Node node) {
     // write your code here
-    int h=0,chcompare=0;
-    if(node.children.size()>0)
-    {
-        h=1;
-    }
-    for(Node child : node.children)
-    {
-        int ch = height(child);
-        chcompare = Math.max(ch, chcompare);
-    }
-    return h+chcompare;
+    Stack<Pair>st = new Stack<>();
+    st.push(new Pair(node,-1));
 
+    while (st.size()!=0) {
+      Pair top = st.peek();
+      if(top.state==-1)
+      {
+          System.out.print(top.node.data+" ");
+          top.state+=1;
+      }
+      else if (top.state>=0 && top.state<top.node.children.size()) {
+        int child = top.state;
+        top.state+=1;
+        st.push(new Pair(top.node.children.get(child),-1));
+      }
+      else {
+        st.pop();
+      }
+    }
+
+    System.out.println();
+///postorder
+
+    st = new Stack<>();
+    st.push(new Pair(node,0));
+
+    while(st.size()>0)
+    {
+      Pair top = st.peek();
+      if(top.state==-1)
+      {
+          
+          top.state+=1;
+      }
+      else if (top.state>=0 && top.state<top.node.children.size()) {
+        int child = top.state;
+        top.state+=1;
+        st.push(new Pair(top.node.children.get(child),-1));
+      }
+      else {
+        System.out.print(top.node.data+" ");
+        st.pop();
+      } 
+    }
   }
 
-  // alternative approach
-
- public static int height1(Node node) {
-    // write your code here
-    int h=-1;
-    
-    for(Node child : node.children)
-    {
-        int ch = height(child);
-        h= Math.max(ch,h);
-    }
-    h+=1;
-    return h;
-
-  }
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
@@ -108,9 +118,7 @@ public class Main {
     }
 
     Node root = construct(arr);
-    int h = height(root);
-    System.out.println(h);
-    // display(root);
+    IterativePreandPostOrder(root);
   }
 
-}
+} 
