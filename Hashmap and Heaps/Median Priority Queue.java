@@ -14,43 +14,35 @@ public class Main {
 
     public void add(int val) {
       // write your code here
-      if(left.size()==0)
-      {
-          left.add(val);
-      }
-      else if (right.size()>0) {
-          if(val>right.peek())
-          {
-              right.add(val);
-          }
-          else {
-              left.add(val);
-          }
 
-          if(left.size()-right.size()>1)
-          {
-                right.add(left.remove());
-          }
-          else if(right.size()-left.size()>1)
-          {
-              left.add(right.remove());
-          }
-      } 
-      else {
-          left.add(val);
-          right.add(left.remove());
+      if (right.size() > 0 && val > right.peek()) {
+        right.add(val);
       }
+      else {
+        left.add(val);
+      }
+
+      if (left.size() - right.size() > 1)
+      {
+        right.add(left.remove());
+      }
+      else if (right.size() - left.size() > 1)
+      {
+        left.add(right.remove());
+      }
+
     }
 
     public int remove() {
       // write your code here
-      if(left.size()==right.size())
+      if (this.size() == 0)
       {
-          return left.remove();
+        System.out.println("Underflow");
+        return -1;
       }
-      else if (left.size()>right.size())
+      if (left.size() >= right.size())
       {
-          return left.remove();
+        return left.remove();
       }
       return right.remove();
 
@@ -58,20 +50,21 @@ public class Main {
 
     public int peek() {
       // write your code here
-      if(left.size()==right.size())
+      if (this.size() == 0)
       {
-          return left.peek();
+        System.out.println("Underflow");
+        return -1;
       }
-      else if (left.size()>right.size())
+      if (left.size() >= right.size())
       {
-          return left.peek();
+        return left.peek();
       }
       return right.peek();
     }
 
     public int size() {
       // write your code here
-      return left.size()+right.size();
+      return left.size() + right.size();
     }
   }
 
