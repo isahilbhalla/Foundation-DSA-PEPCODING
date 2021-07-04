@@ -19,7 +19,7 @@ public class Main
     public static void main(String arg[]) throws Exception
     {
         int vertices = 7;
-        ArrayList<Edges>graph = new ArrayList<Edges>();
+        ArrayList<Edges>graph[] = new ArrayList<Edges>[7];
         
         for(int i=0;i<vertices;i++)
         {
