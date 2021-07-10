@@ -90,11 +90,50 @@ public class Main {
     int th = Math.max(lh, rh) + 1;
     return th;
   }
-
+  
   public static int diameter1(Node node) {
     // write your code here
+    if(node==null)
+    {
+        return 0;
+    }
+    int ans = height(node.left)+height(node.right)+2;
+    int dleft = diameter1(node.left);
+    int dright = diameter1(node.right);
+    ans = Math.max(ans, dleft);
+    return Math.max(ans, dright);
+
   }
 
+  public static class diaPair{
+      int ht;
+      int dia;
+
+      diaPair(int ht, int dia)
+      {
+          this.ht = ht;
+          this.dia=dia;
+      }
+  }
+
+  public static diaPair diameter2(Node node)
+  {
+        if(node==null)
+        {
+            return new diaPair(-1,0);
+        }
+
+        diaPair l = diameter2(node.left);
+        diaPair r = diameter2(node.right);
+
+        diaPair ans = new diaPair();
+        ans.ht = Math.max(l.ht, r.ht)+1;
+
+        ans.dia = Math.max(l.ht+r.ht+2,Math.max(l.dia,r.dia));
+        
+        return ans;
+
+  }
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
@@ -110,9 +149,10 @@ public class Main {
 
     Node root = construct(arr);
 
-    int diameter = 0;
-    diameter = diameter1(root);
-    System.out.println(diameter);
+    // int diameter = 0;
+    // diameter = diameter1(root);
+    // System.out.println(diameter);
+    System.out.println(diameter2(root).dia);
   }
 
 }
