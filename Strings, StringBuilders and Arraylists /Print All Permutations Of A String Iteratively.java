@@ -27,6 +27,7 @@ public class Main {
         int ans=1;
         for(int i=n;i>1;i--)
         {
+        
             ans*=i;
         }
         return ans;
